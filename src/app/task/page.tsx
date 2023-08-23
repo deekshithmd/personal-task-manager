@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import addTask from "@/firebase/firestore/addTask";
 import getTask from "@/firebase/firestore/getTasks";
 import { useSelector, useDispatch } from "react-redux";
