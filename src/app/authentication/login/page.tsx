@@ -25,7 +25,7 @@ const LoginPage = () => {
         password: userDetails?.password,
       });
 
-      if (result?.user?.accessToken) {
+      if (result?.user?.uid) {
         dispatch(
           setUserData({
             isLoggedIn: true,
