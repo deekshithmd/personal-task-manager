@@ -23,7 +23,7 @@ const SignupPage = () => {
         password: newUserData?.password,
       };
 
-      const {result} = await signUp(newUser);
+      const { signupData } = await signUp(newUser);
 
       router?.push("/authentication/login");
     } else {
@@ -37,46 +37,83 @@ const SignupPage = () => {
   };
 
   return (
-    <div>
-      <form className="flex" onSubmit={handleSignup}>
-        <h1>Signup</h1>
-        <label htmlFor="username">Email</label>
-        <input
-          type="email"
-          name="username"
-          placeholder="Type your username..."
-          value={newUserData?.email}
-          onChange={(e) =>
-            setNewUserData((prev) => ({ ...prev, email: e.target.value }))
-          }
-        />
-
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          placeholder="Type your password..."
-          value={newUserData?.password}
-          onChange={(e) =>
-            setNewUserData((prev) => ({ ...prev, password: e.target.value }))
-          }
-        />
-
-        <label htmlFor="confirm">Confirm Password</label>
-        <input
-          type="password"
-          name="confirmd"
-          placeholder="Confirm password..."
-          value={newUserData?.confirm}
-          onChange={(e) =>
-            setNewUserData((prev) => ({ ...prev, confirm: e.target.value }))
-          }
-        />
-        <button type="submit">Signup</button>
-        {/* <p>
-          Have account already? <a href="/auth/login">Click here to login</a>
-        </p> */}
-      </form>
+    <div className="bg-gray-100 flex items-center justify-center h-screen">
+      <div className="bg-white p-8 rounded shadow-md w-96">
+        <h1 className="text-2xl font-semibold mb-4">SignUp</h1>
+        <form onSubmit={handleSignup}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-600">
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Type your username..."
+              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-400"
+              value={newUserData?.email}
+              onChange={(e) =>
+                setNewUserData((prev) => ({ ...prev, email: e.target.value }))
+              }
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-gray-600">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-400"
+              placeholder="Type your password..."
+              value={newUserData?.password}
+              onChange={(e) =>
+                setNewUserData((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="confirm" className="block text-gray-600">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              name="confirm"
+              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-400"
+              placeholder="Confirm your password..."
+              value={newUserData?.confirm}
+              onChange={(e) =>
+                setNewUserData((prev) => ({
+                  ...prev,
+                  confirm: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              Signup
+            </button>
+          </div>
+        </form>
+        <p className="text-gray-600 mt-4">
+          Have account already?
+          <a
+            href="/authentication/login"
+            className="text-blue-500 hover:underline"
+          >
+            Click here to Login
+          </a>
+        </p>
+      </div>
     </div>
   );
 };

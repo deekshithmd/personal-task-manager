@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/lib/store";
 import { setUserData } from "@/features/auth/authSlice";
+import { setTasks } from "@/features/task/taskSlice";
+import getTask from "@/firebase/firestore/getTasks";
 
 // Testing whether user authenticated or not
 const RequiresAuth = ({ children }: { children: any }) => {
@@ -12,12 +14,17 @@ const RequiresAuth = ({ children }: { children: any }) => {
   const router = useRouter();
 
   useEffect(() => {
-    let isLoggedIn = JSON.parse(localStorage.getItem("isLoggenIn")!);
-    if (isAuthorized || isLoggedIn) {
-      dispatch(setUserData(isLoggedIn));
-    } else {
-      router.push("/authentication/login");
-    }
+    (async () => {
+      const isLoggedIn = localStorage.getItem("isLoggedIn");
+      const user = JSON.parse(localStorage.getItem("user")!);
+      if (isAuthorized || isLoggedIn) {
+        dispatch(setUserData({ isLoggedIn, user }));
+        const { taskArray } = await getTask(user?.uid);
+        dispatch(setTasks(taskArray));
+      } else {
+        router.push("/authentication/login");
+      }
+    })();
   }, [isAuthorized, router]);
 
   return children;

@@ -8,3 +8,16 @@ export interface SignupDataType {
   password: string;
   confirm: string;
 }
+
+export interface addTaskType {
+  taskName: string;
+  taskDescription: string;
+  uid: string;
+}
+
+export interface TaskType {
+  id?: string;
+  taskName?: string;
+  taskDescription?: string;
+  isCompleted?: boolean;
+}

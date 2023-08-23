@@ -5,13 +5,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 // Define a type for the slice state
 interface AuthState {
   isLoggedIn?: boolean;
-  accessToken?: string;
+  user?: any;
 }
 
 // Define the initial state using that type
 const initialState: AuthState = {
   isLoggedIn: false,
-  accessToken: "",
+  user: {},
 };
 
 export const authSlice = createSlice({
@@ -21,9 +21,9 @@ export const authSlice = createSlice({
   reducers: {
     setUserData: (state, action: PayloadAction<any>) => {
       state.isLoggedIn = action?.payload?.isLoggedIn;
-      state.accessToken = action?.payload?.accessToken;
+      state.user = action?.payload?.user;
       localStorage.setItem("isLoggedIn", String(state.isLoggedIn));
-      localStorage.setItem("accessToken", String(state.isLoggedIn));
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
   },
 });

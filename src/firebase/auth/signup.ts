@@ -1,8 +1,10 @@
 import app from "../config";
 
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { setDoc, doc, collection, getFirestore } from "firebase/firestore";
 
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 export default async function signUp({
   email,
@@ -11,13 +13,17 @@ export default async function signUp({
   email: string;
   password: string;
 }) {
-  let result = null,
+  let signupData = null,
     error = null;
   try {
-    result = await createUserWithEmailAndPassword(auth, email, password);
+    signupData = await createUserWithEmailAndPassword(auth, email, password);
+    await setDoc(doc(db, "users", signupData?.user?.uid), {
+      email,
+      password,
+    });
   } catch (e) {
     error = e;
   }
 
-  return { result, error };
+  return { signupData, error };
 }

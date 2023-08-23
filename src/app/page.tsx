@@ -1,12 +1,13 @@
-"use client"
-import RequiresAuth from "@/components/RequireAuth";
+"use client";
+
+import Tasks from "./task/page";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
-    <RequiresAuth>
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <h1>This is protected</h1>
+        <Header />
+        <Tasks />
       </main>
-    </RequiresAuth>
   );
 }
