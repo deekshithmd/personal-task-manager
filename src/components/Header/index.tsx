@@ -20,7 +20,7 @@ export default function Header() {
   return (
     <nav className="bg-slate-700 p-4 fixed left-0 top-0 right-0 w-full align-center">
       <div className="container mx-auto flex justify-between items-center">
-        <a href="#" className="text-white text-2xl font-semibold">
+        <a href="/" className="text-white text-2xl font-semibold">
           Task Manager
         </a>
         <button

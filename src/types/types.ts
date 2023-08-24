@@ -9,7 +9,7 @@ export interface SignupDataType {
   confirm: string;
 }
 
-export interface addTaskType {
+export interface AddTaskType {
   taskName: string;
   taskDescription: string;
   uid: string;

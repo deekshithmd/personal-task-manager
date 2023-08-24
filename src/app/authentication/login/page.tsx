@@ -3,12 +3,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoginDataType } from "@/types/types";
 import signIn from "@/firebase/auth/signin";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserData } from "@/features/auth/authSlice";
-import { RootState } from "@/lib/store";
 
 const LoginPage = () => {
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const [userDetails, setUserDetails] = useState<LoginDataType>({
     email: "",
     password: "",
@@ -18,7 +16,7 @@ const LoginPage = () => {
 
   // handling login
   const handleLogin = async (e: any) => {
-    e.preventDefault();
+    e?.preventDefault();
     try {
       const { result } = await signIn({
         email: userDetails?.email,

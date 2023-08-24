@@ -5,7 +5,7 @@ import {
   addDoc,
   collection,
 } from "firebase/firestore";
-import { addTaskType } from "@/types/types";
+import { AddTaskType } from "@/types/types";
 
 const db = getFirestore(app);
 
@@ -13,7 +13,7 @@ export default async function addTask({
   taskName,
   taskDescription,
   uid,
-}: addTaskType) {
+}: AddTaskType) {
   let result = null,
     error = null;
   try {
