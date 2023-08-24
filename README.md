@@ -3,9 +3,10 @@
 
 ### Steps to run the app
 
-  1. run ```npm install```
-  2. run ```npm run dev```
-  3. Application will run at port 3000
+  1. clone the project ```https://github.com/deekshithmd/personal-task-manager.git```
+  2. run ```npm install```
+  3. run ```npm run dev```
+  4. Application will run at port 3000
 
 ### Features added
   1. User can login and signup with email and password
