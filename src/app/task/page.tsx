@@ -9,6 +9,7 @@ import RequiresAuth from "@/components/RequireAuth";
 import deleteTask from "@/firebase/firestore/deleteTask";
 import updateTask from "@/firebase/firestore/updateTask";
 import { TaskType } from "@/types/types";
+import Modal from "@/components/Modal";
 
 export default function Tasks() {
   const userData = useSelector((state: RootState) => state.auth.user);
@@ -19,8 +20,8 @@ export default function Tasks() {
     isCompleted: false,
   });
   const [editData, setEditData] = useState<TaskType>({});
-  const [newTask, setNewTask] = useState<boolean>(false);
-  const [showEdit, setShowEdit] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const updateTasks = async () => {
@@ -36,7 +37,7 @@ export default function Tasks() {
       uid: userData?.uid,
     });
     updateTasks();
-    setNewTask(false);
+    setShowNewTaskModal(false);
     setTaskData({
       taskName: "",
       taskDescription: "",
@@ -64,7 +65,7 @@ export default function Tasks() {
       },
     });
     updateTasks();
-    setShowEdit(false);
+    setShowEditModal(false);
     setEditData({});
   };
 
@@ -76,158 +77,196 @@ export default function Tasks() {
   return (
     <RequiresAuth>
       <div>
-        <div>
+        <div className="w-full flex justify-center">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-            onClick={() => setNewTask(true)}
+            className="bg-violet-500 text-white px-4 py-2 rounded-3xl hover:bg-violet-600"
+            onClick={() => setShowNewTaskModal(true)}
           >
-            Create New Task
+            Add New Task
           </button>
         </div>
-        {newTask && (
-          <div className="bg-white p-6 rounded-md shadow-md w-96">
-            <h1 className="text-2xl font-semibold mb-4">Add a Task</h1>
-            <form id="taskForm" className="space-y-4" onSubmit={handleAddTask}>
-              <div>
-                <label htmlFor="taskName" className="block font-medium">
-                  Task Name
-                </label>
-                <input
-                  type="text"
-                  name="taskName"
-                  className="mt-1 p-2 w-full border rounded-md"
-                  value={taskData?.taskName}
-                  onChange={(e) =>
-                    setTaskData((prev) => ({
-                      ...prev,
-                      taskName: e.target.value,
-                    }))
-                  }
-                  required
-                />
+        {showNewTaskModal && (
+          <Modal>
+            <div className="bg-white p-6 rounded-md shadow-md w-96">
+              <div className="w-full flex justify-center">
+                <h1 className="text-2xl font-semibold mb-4">Add a Task</h1>
               </div>
-              <div>
-                <label htmlFor="taskDescription" className="block font-medium">
-                  Task Description
-                </label>
-                <textarea
-                  name="taskDescription"
-                  rows={3}
-                  className="mt-1 p-2 w-full border rounded-md"
-                  value={taskData?.taskDescription}
-                  onChange={(e) =>
-                    setTaskData((prev) => ({
-                      ...prev,
-                      taskDescription: e.target.value,
-                    }))
-                  }
-                  required
-                ></textarea>
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                >
-                  Add Task
-                </button>
-              </div>
-            </form>
-          </div>
+              <form
+                id="taskForm"
+                className="space-y-4"
+                onSubmit={handleAddTask}
+              >
+                <div>
+                  <label htmlFor="taskName" className="block font-medium">
+                    Task Name
+                  </label>
+                  <input
+                    type="text"
+                    name="taskName"
+                    className="mt-1 p-2 w-full border rounded-md"
+                    value={taskData?.taskName}
+                    onChange={(e) =>
+                      setTaskData((prev) => ({
+                        ...prev,
+                        taskName: e.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="taskDescription"
+                    className="block font-medium"
+                  >
+                    Task Description
+                  </label>
+                  <textarea
+                    name="taskDescription"
+                    rows={3}
+                    className="mt-1 p-2 w-full border rounded-md"
+                    value={taskData?.taskDescription}
+                    onChange={(e) =>
+                      setTaskData((prev) => ({
+                        ...prev,
+                        taskDescription: e.target.value,
+                      }))
+                    }
+                    required
+                  ></textarea>
+                </div>
+                <div className="w-full flex justify-center gap-3">
+                  <button
+                    type="submit"
+                    className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-400"
+                    onClick={() => setShowNewTaskModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                  >
+                    Add Task
+                  </button>
+                </div>
+              </form>
+            </div>
+          </Modal>
         )}
-        {showEdit && (
-          <div className="bg-white p-6 rounded-md shadow-md w-96">
-            <h1 className="text-2xl font-semibold mb-4">Add a Task</h1>
-            <form id="taskForm" className="space-y-4" onSubmit={handleEditData}>
-              <div>
-                <label htmlFor="taskName" className="block font-medium">
-                  Task Name
-                </label>
-                <input
-                  type="text"
-                  name="taskName"
-                  className="mt-1 p-2 w-full border rounded-md"
-                  value={editData?.taskName}
-                  onChange={(e) =>
-                    setEditData((prev) => ({
-                      ...prev,
-                      taskName: e.target.value,
-                    }))
-                  }
-                  required
-                />
+        {showEditModal && (
+          <Modal>
+            <div className="bg-white p-6 rounded-md shadow-md w-96">
+              <div className="w-full flex justify-center items-center">
+                <h1 className="text-2xl font-semibold mb-4">Edit this Task</h1>
               </div>
-              <div>
-                <label htmlFor="taskDescription" className="block font-medium">
-                  Task Description
-                </label>
-                <textarea
-                  name="taskDescription"
-                  rows={3}
-                  className="mt-1 p-2 w-full border rounded-md"
-                  value={editData?.taskDescription}
-                  onChange={(e) =>
-                    setEditData((prev) => ({
-                      ...prev,
-                      taskDescription: e.target.value,
-                    }))
-                  }
-                  required
-                ></textarea>
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                >
-                  Update Task
-                </button>
-              </div>
-            </form>
-          </div>
+              <form
+                id="taskForm"
+                className="space-y-4"
+                onSubmit={handleEditData}
+              >
+                <div>
+                  <label htmlFor="taskName" className="block font-medium">
+                    Task Name
+                  </label>
+                  <input
+                    type="text"
+                    name="taskName"
+                    className="mt-1 p-2 w-full border rounded-md"
+                    value={editData?.taskName}
+                    onChange={(e) =>
+                      setEditData((prev) => ({
+                        ...prev,
+                        taskName: e.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="taskDescription"
+                    className="block font-medium"
+                  >
+                    Task Description
+                  </label>
+                  <textarea
+                    name="taskDescription"
+                    rows={3}
+                    className="mt-1 p-2 w-full border rounded-md"
+                    value={editData?.taskDescription}
+                    onChange={(e) =>
+                      setEditData((prev) => ({
+                        ...prev,
+                        taskDescription: e.target.value,
+                      }))
+                    }
+                    required
+                  ></textarea>
+                </div>
+                <div className="w-full flex justify-center gap-3">
+                  <button
+                    type="submit"
+                    className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-400"
+                    onClick={() => setShowEditModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                  >
+                    Update Task
+                  </button>
+                </div>
+              </form>
+            </div>
+          </Modal>
         )}
-        <div>
+        <div className="w-full flex flex-col items-center p-10">
           <h1 className="text-2xl">Task List</h1>
-          <div>
+          <div className="w-full flex justify-start flex-wrap gap-4 p-5">
             {taskList?.map((task, index) => {
               return (
                 <div
-                  className="max-w-sm mx-auto bg-white rounded-xl shadow-md overflow-hidden"
+                  className="p-2 max-w-sm w-80 mx-auto bg-white rounded-xl shadow-md overflow-hidden"
                   key={index}
                 >
-                  <div className="px-4 py-2">
+                  <div className="p-4">
                     <h2
-                      className={`font-bold text-xl mb-2 ${
+                      className={`font-medium text-xl mb-2 ${
                         task?.isCompleted ? "line-through" : ""
                       }`}
                     >
                       {task?.taskName}
                     </h2>
-                    <p
-                      className={`text-gray-700 text-base ${
-                        task?.isCompleted ? "line-through" : ""
-                      }`}
-                    >
-                      {task?.taskDescription}
-                    </p>
+                    <div className="w-full">
+                      <p
+                        className={`break-words text-gray-700 text-lg ${
+                          task?.isCompleted ? "line-through" : ""
+                        }`}
+                      >
+                        {task?.taskDescription}
+                      </p>
+                    </div>
                   </div>
                   <div className="px-4 py-2">
                     {!task?.isCompleted && (
                       <>
                         <button
-                          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2"
+                          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-3xl mr-2"
                           onClick={() =>
                             handleCompleted({ ...task, isCompleted: true })
                           }
                         >
-                          Completed
+                          Complete
                         </button>
                         <button
-                          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2"
+                          className="bg-violet-500 hover:bg-violet-600 text-white font-bold py-2 px-4 rounded-3xl mr-2"
                           onClick={() => {
                             setEditData(task);
-                            setShowEdit(true);
+                            setShowEditModal(true);
                           }}
                         >
                           Edit
@@ -235,7 +274,7 @@ export default function Tasks() {
                       </>
                     )}
                     <button
-                      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-3xl"
                       onClick={() => handleDeleteTask(task?.id)}
                     >
                       Delete

@@ -42,7 +42,9 @@ const LoginPage = () => {
   return (
     <div className="bg-gray-100 flex items-center justify-center h-screen">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h1 className="text-2xl font-semibold mb-4">Login</h1>
+        <div className="w-full flex items-center justify-center">
+          <h1 className="text-2xl font-semibold mb-4">Login</h1>
+        </div>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-600">
@@ -52,7 +54,7 @@ const LoginPage = () => {
               type="email"
               name="email"
               placeholder="Type your username..."
-              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-400"
+              className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-violet-400"
               value={userDetails?.email}
               onChange={(e) =>
                 setUserDetails((prev) => ({ ...prev, email: e.target.value }))
@@ -67,7 +69,7 @@ const LoginPage = () => {
             <input
               type="password"
               name="password"
-              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-400"
+              className="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:border-violet-400"
               placeholder="Type your password..."
               value={userDetails?.password}
               onChange={(e) =>
@@ -82,7 +84,7 @@ const LoginPage = () => {
           <div className="mb-6">
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full bg-violet-700 text-white py-2 rounded hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               Login
             </button>
@@ -92,7 +94,7 @@ const LoginPage = () => {
           Don`t have an account?{" "}
           <a
             href="/authentication/signup"
-            className="text-blue-500 hover:underline"
+            className="text-violet-700 hover:underline"
           >
             Click here to Signup
           </a>

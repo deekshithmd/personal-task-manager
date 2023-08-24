@@ -24,7 +24,7 @@ export default function Header() {
           Task Manager
         </a>
         <button
-          className="bg-white text-blue-500 hover:bg-blue-200 text-sm font-semibold px-4 py-2 rounded-full"
+          className="bg-white text-violet-700 hover:bg-violet-200 text-sm font-semibold px-4 py-2 rounded-full"
           onClick={() =>
             isLoggenIn ? handleLogout() : router.push("/authentication/login")
           }
